@@ -1,0 +1,182 @@
+{% extends 'student/studentbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/css">
+      a:link {
+        text-decoration: none;
+      }
+  
+      .order-card {
+        color: rgb(255, 255, 255);
+      }
+  
+      .bg-c-blue {
+        background: #04868f;
+      }
+  
+      .bg-c-green {
+        background:#4C51BF;
+      }
+  
+      .bg-c-yellow {
+        background: #F56565;
+      }
+  
+      .bg-c-pink {
+        background: #663a30;
+      }
+  
+  
+      .card {
+        
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: 1px solid black;
+        margin-bottom: 50px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+      }
+  
+      .card .card-block {
+        padding: 40px;
+        
+      }
+  
+      .order-card i {
+        font-size: 26px;
+      }
+  
+      .f-left {
+        float: left;
+      }
+  
+      .f-right {
+        float: right;
+      }
+      header {
+      left: 0px;
+      right: 0px;
+    }
+    /* Style for the toggle window */
+    #toggleWindow {
+          display: none;
+          position: fixed;
+          {% comment %} top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%); {% endcomment %}
+          padding: 20px;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          z-index: 999;
+          bottom:0;
+          right:0;
+      }
+      .border{
+        border-radius:none;
+        float: right;
+        clear: right;
+        margin-right: 50px;
+        font-size: larger;
+      }
+      .margin{
+        font-weight: 700;
+
+        float: right;
+        
+      }
+    </style>
+  </head>
+<br><br>
+
+  <div class="container">
+    <div class="row">
+      
+  
+      <div class="col-md-4 col-xl-6">
+        <div class="card bg-c-yellow order-card">
+          <div class="card-block">
+            <h6 class="m-b-20">Total Exams Available</h6>
+           <h2 class="text-right"><i class="fas fa-book f-left"></i><span>{{total_course}}</span></h2>
+            
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-4 col-xl-6">
+        <div class="card bg-c-pink order-card">
+          <div class="card-block">
+            <h6 class="m-b-20">Total Questions</h6>
+            <h2 class="text-right"><i class="fas fa-question-circle f-left"></i><span>{{total_question}}</span></h2>
+            
+          </div>
+        </div>
+      </div>
+       
+    </div>
+   
+   
+</head>
+<body>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<!-- Button to open the toggle window -->
+<div class="margin ">Connect With Your Teacher</div>
+<button class="border"  onclick="toggleWindow()"><svg xmlns="http://www.w3.org/2000/svg" width="55" height="60" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16" >
+  <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+  <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
+</svg></button>
+
+
+
+
+
+<script>
+  // Function to toggle the window visibility
+  function toggleWindow() {
+      var toggleWindow = document.getElementById('toggleWindow');
+      toggleWindow.style.display = (toggleWindow.style.display === 'none' || toggleWindow.style.display === '') ? 'block' : 'none';
+  
+      // Load HTML page into the iframe when the window is opened
+      if (toggleWindow.style.display === 'block') {
+          document.getElementById('contentFrame').src ="http://localhost:3000";
+      }
+  }
+  
+  // Function to close the toggle window
+  function closeToggleWindow() {
+      document.getElementById('toggleWindow').style.display = 'none';
+  }
+  </script>
+  </div>
+    </div>
+      
+  
+  
+  {% comment %} <!-- Button to open the toggle window -->
+  <button onclick="toggleWindow()">Open Toggle Window</button>
+   {% endcomment %}
+  <!-- Toggle Window content -->
+  <div id="toggleWindow">
+  <iframe id="contentFrame" width="600" height="650" frameborder="0"></iframe>
+  <button onclick="closeToggleWindow()">Close</button>
+  </div>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<script src="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+
+{% endblock content %}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="CSS/login.css">
+  <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <title>Login Page</title>
+</head>
+
+
+<body>
+
+  <div class="container mt-5">
+    <div class="row mt-5">
+      <div class="col-md-5 mx-auto mt-5">
+        <div id="first">
+          <div class="myform form">
+            <div class="logo mb-3">
+              <div class="col-md-12 text-center">
+                <h1>Login</h1>
+              </div>
+            </div>
+            <form>
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" name="email" placeholder="E-mail" />
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" />
+              </div>
+
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input type="username" id="username" name="password" placeholder="Username" />
+              </div>
+              <div class="Container">
+                <div class="form-group">
+                  <button type="button" class="login_signup_btn" id="signup">Sign Up</button>
+                </div>
+
+
+                <div class="form-group">
+                  <button type="button" class="login_signup_btn" id="login">Login</button>
+
+                </div>
+              </div>
+
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div id="login-box">
+    <div class="left">
+      <h1 id='status'>login</h1>
+      <input type="text" id="email" name="email" placeholder="E-mail" />
+      <input type="password" id="password" name="password" placeholder="Password" />
+      <input type="username" id="username" name="password" placeholder="Username" />
+
+      <input type="submit" id='signup' name="signup" value="signup" />
+      <input type="submit" id='login' name="login" value="login" />
+
+    </div>
+
+    <div class="right">
+      <span class="loginwith">Sign in with<br />social network</span>
+
+      <button class="social-signin facebook">Log in with facebook</button>
+      <button class="social-signin twitter">Log in with Twitter</button>
+      <button class="social-signin google">Log in with Google+</button>
+    </div>
+    <div class="or">OR</div>
+  </div> -->
+  <script>
+    if (localStorage.getItem("user")) {
+      window.location.href = "/interest.html"
+    }
+  </script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBdbwHbIiGvXJ_btGbvftehyKa7QBmmac",
+      authDomain: "career-guidance-32d0b.firebaseapp.com",
+      projectId: "career-guidance-32d0b",
+      storageBucket: "career-guidance-32d0b.appspot.com",
+      messagingSenderId: "515836988339",
+      appId: "1:515836988339:web:be87aaddd341d6206b99c6",
+      measurementId: "G-QLTTYBV3WH"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    const auth = getAuth();
+
+    document.getElementById("login").addEventListener('click', (e) => {
+      e.preventDefault();
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          const dt = new Date();
+          update(ref(database, 'users/' + user.uid), {
+            last_login: dt,
+          })
+          localStorage.setItem("user", JSON.stringify(user))
+
+          window.location.href = "/interest.html"
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          localStorage.removeItem("user")
+          window.location.href = "/login.html"
+
+        });
+    });
+
+    document.getElementById("signup").addEventListener('click', (e) => {
+      e.preventDefault();
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var username = document.getElementById('username').value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          //signed in
+          const user = userCredential.user;
+          set(ref(database, 'users/' + user.uid), {
+            username: username,
+            email: email,
+          })
+          localStorage.setItem("user", user)
+          window.location.href = "/interest.html"
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          localStorage.removeItem("user")
+          window.location.href = "/login.html"
+
+        });
+
+
+
+
+    });
+
+  </script>
+  <!-- <script src="JS/login.js"></script> -->
+</body>
+
+</html>
